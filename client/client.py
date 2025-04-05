@@ -4,6 +4,5 @@ from functions import Client
 
 ## Execute
 client = Client()
-client.connect()
-client.shell()
+client.connection()
 client.close()
