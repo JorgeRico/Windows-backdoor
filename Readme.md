@@ -6,7 +6,7 @@ Exemple with local and virtual machines
 - Execute on your computer with python
 - Server ip need to be the same on Client code
 
-#### client
+#### Client
 Locate on a Windows computer. Execute and store on registry to load on windows start.
 - Server ip need to be the same on Server code
 
