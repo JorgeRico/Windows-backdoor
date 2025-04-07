@@ -8,6 +8,7 @@ class Server:
         self.ip     = None
         self.target = None
         self.count  = 0
+        self.serverIp = '192.168.0.62'
 
     # start server
     def upserver(self):
@@ -16,7 +17,7 @@ class Server:
         self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
         # listening
-        self.server.bind(('192.168.56.1', 7777))
+        self.server.bind((self.serverIp, 7777))
         # listen 1 client
         self.server.listen(1)
         print(' - Server working, waiting connections . . . ')
